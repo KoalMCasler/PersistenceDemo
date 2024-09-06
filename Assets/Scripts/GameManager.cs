@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour
     public static GameManager gameManager;
     [SerializeField]
     private UIManager uIManager;
+    public enum GameState{MainMenu, Gameplay}
+    public GameState gameState;
     public float health;
     public int str;
     public int dex;
     public int con;
-    public int mind;
+    public int mind; //INT in game
     public int wis;
     public int cha;
     public int exp;
@@ -31,6 +33,31 @@ public class GameManager : MonoBehaviour
             gameManager = this;
         }
     }
+
+    void Start()
+    {
+        gameState = GameState.MainMenu;
+    }
+
+    public void ChangeGameState()
+    {
+        switch(gameState)
+        {
+            case GameState.MainMenu: MainMenu(); break;
+            case GameState.Gameplay: Gameplay(); break;
+        }
+    }
+
+    void MainMenu()
+    {
+        uIManager.SetActiveUI("MainMenu");
+    }
+
+    void Gameplay()
+    {
+        uIManager.SetActiveUI("StatsMenu");
+    }
+
 
     public void Save()
     {
@@ -74,6 +101,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool CheckforSave()
+    {
+        bool doseSaveExisit = File.Exists(Application.persistentDataPath + "/playerInfo.dat");
+        return doseSaveExisit;
+    }
+
     public void Load()
     {
         if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
@@ -92,10 +125,6 @@ public class GameManager : MonoBehaviour
             cha = data.cha;
             exp = data.exp;
             score = data.score;
-        }
-        else
-        {
-
         }
     }
 }
