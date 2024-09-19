@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     private GameManager gameManager;
-
+    private Collider2D foundBoundingShape;
     void Start()
     {
         gameManager = GameManager.gameManager;
